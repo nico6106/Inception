@@ -18,6 +18,8 @@ RUN mkdir -p /var/run/nginx
 #copy du fichier de configuration dans notre conteneur
 COPY /conf/nginx.conf /etc/nginx/nginx.conf
 
+#COPY /tools/index.html /var/www/html/index.html
+
 #donne droit (tous droits au proprietaire + lecture et acces aux autres)
 RUN chmod 755 /var/www/html
 
