@@ -1,12 +1,27 @@
 FROM debian:buster
 
+#installation nginx
 RUN apt-get update \
 && apt-get upgrade -y \
 && apt-get install nginx -y
 
-RUN apt-get install nano -y
-
+#creation dossier ssl
 RUN mkdir -p /etc/nginx/ssl
 
+#installation OpenSSL pour TSLv1.2
 RUN apt-get install openssl -y
+RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=nlesage.42.fr/UID=nlesage"
 
+#creation dossier stockage fichier configuration
+RUN mkdir -p /var/run/nginx
+
+#copy du fichier de configuration dans notre conteneur
+COPY /conf/nginx.conf /etc/nginx/nginx.conf
+
+#donne droit (tous droits au proprietaire + lecture et acces aux autres)
+RUN chmod 755 /var/www/html
+
+#modifie le proprietaire, option -R pour tous les sous dossiers
+RUN chown -R www-data:www-data /var/www/html
+
+CMD [ "nginx", "-g", "daemon off;"]
