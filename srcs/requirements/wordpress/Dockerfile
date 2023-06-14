@@ -2,16 +2,15 @@ FROM debian:buster
 
 RUN apt-get update -y \
 && apt-get upgrade -y \
-&& apt-get install php-fpm php-mysql -y \
+&& apt-get install php7.3 php-fpm php-mysql -y \
 && apt-get install wget -y
 
 RUN apt-get install mariadb-client -y 
 
-#RUN wget https://fr.wordpress.org/wordpress-6.2.2-fr_FR.tar.gz -P /var/www
-
-#RUN cd /var/www && tar -xzf wordpress-6.2.2-fr_FR.tar.gz && rm wordpress-6.2.2-fr_FR.tar.gz
-
-#RUN chown -R root:root /var/www/wordpress
+#ici decommente
+RUN wget https://fr.wordpress.org/wordpress-6.2.2-fr_FR.tar.gz -P /var/www
+RUN cd /var/www && tar -xzf wordpress-6.2.2-fr_FR.tar.gz && rm wordpress-6.2.2-fr_FR.tar.gz
+RUN chown -R root:root /var/www/wordpress
 
 #configurer php
 COPY /conf/php.ini /etc/php/7.3/cli/php.ini
@@ -23,7 +22,8 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-RUN mkdir /var/www/ && mkdir /var/www/html 
+#RUN mkdir /var/www/ && mkdir /var/www/html 
+#dossier
 
 #COPY /conf/wp-config.php /var/www/wp-config.php
 
@@ -40,9 +40,10 @@ RUN mkdir /run/php
 
 
 COPY /tools/config_wpcli.sh ./config_wpcli.sh
+
 RUN sh ./config_wpcli.sh
 
-WORKDIR /var/www/html/
+WORKDIR /var/www/wordpress/
 
 #We expose the 9000 port
 EXPOSE 9000

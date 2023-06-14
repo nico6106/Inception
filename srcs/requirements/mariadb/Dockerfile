@@ -1,8 +1,11 @@
 FROM debian:buster
 
+
+
 RUN apt-get update -y \
 && apt-get upgrade -y \
-&& apt-get install mariadb-server mariadb-client -y
+&& apt-get install mariadb-server -y 
+#mariadb-client
 
 COPY /conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 #COPY /conf/50-client.cnf /etc/mysql/mariadb.conf.d/50-client.cnf
@@ -22,4 +25,4 @@ COPY /tools/script.sh /tmp/script.sh
 
 ENTRYPOINT ["bash", "/tmp/script.sh"]
 
-CMD /usr/bin/mysqld_safe
+#CMD /usr/bin/mysqld_safe

@@ -5,7 +5,7 @@ services:
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: on-failure #unless-stopped
     env_file: .env
     depends_on:
       - wordpress
@@ -14,8 +14,8 @@ services:
     ports:
       - "443:443"
     volumes:
-      - wordpress_vol:/var/www/html #wordpress
-
+      - wordpress_vol:/var/www/wordpress #wordpress
+  #dossier
   
   mariadb:
     container_name: mariadb
@@ -27,6 +27,8 @@ services:
     networks:
       - inception
     expose: ["3306"]
+    ports:
+      - "3306:3306"
     volumes:
       - mariadb_vol:/var/lib/mysql
 
@@ -35,15 +37,17 @@ services:
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: on-failure
     env_file: .env
     depends_on:
       - mariadb
     networks:
       - inception
     expose: ["9000"]
+    ports:
+      - "9000:9000"
     volumes:
-      - wordpress_vol:/var/www/wordpress
+      - wordpress_vol:/var/www/wordpress #dossier
     tty: true
 
 volumes:
@@ -52,13 +56,13 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/nicolas/Documents/42/Inception/volumes/wordpress'
+      device: '/home/nicolas/Documents/volumes/wordpress'
   mariadb_vol:
     driver: local
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/nicolas/Documents/42/Inception/volumes/mariadb'
+      device: '/home/nicolas/Documents/volumes/mariadb'
 
 networks:
   inception:
