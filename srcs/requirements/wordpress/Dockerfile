@@ -7,13 +7,14 @@ RUN apt-get update -y \
 
 RUN apt-get install mariadb-client -y 
 
+RUN mkdir -p /var/www/wordpress
 #ici decommente
-RUN wget https://fr.wordpress.org/wordpress-6.2.2-fr_FR.tar.gz -P /var/www
-RUN cd /var/www && tar -xzf wordpress-6.2.2-fr_FR.tar.gz && rm wordpress-6.2.2-fr_FR.tar.gz
-RUN chown -R root:root /var/www/wordpress
+# RUN wget https://fr.wordpress.org/wordpress-6.2.2-fr_FR.tar.gz -P /var/www
+# RUN cd /var/www && tar -xzf wordpress-6.2.2-fr_FR.tar.gz && rm wordpress-6.2.2-fr_FR.tar.gz
+# RUN chown -R root:root /var/www/wordpress
 
 #configurer php
-COPY /conf/php.ini /etc/php/7.3/cli/php.ini
+#COPY /conf/php.ini /etc/php/7.3/cli/php.ini
 
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/
 
@@ -39,9 +40,9 @@ RUN mkdir /run/php
 #ENTRYPOINT bash /var/www/wordpress/config_wpcli.sh
 
 
-COPY /tools/config_wpcli.sh ./config_wpcli.sh
+COPY /tools/config_wpcli.sh /tmp/config_wpcli.sh
 
-RUN sh ./config_wpcli.sh
+# RUN sh ./config_wpcli.sh
 
 WORKDIR /var/www/wordpress/
 
@@ -49,4 +50,4 @@ WORKDIR /var/www/wordpress/
 EXPOSE 9000
 
 
-CMD ["/usr/sbin/php-fpm7.3", "-F"]
+CMD ["sh", "/tmp/config_wpcli.sh"]

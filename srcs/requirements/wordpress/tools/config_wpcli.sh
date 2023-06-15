@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sleep 5
+sleep 8
 
 #dossier
 DATADIR='/var/www/wordpress/'
@@ -11,7 +11,7 @@ if [ -f ./wp-config.php ]
 then
 	echo "wordpress already downloaded"
 else
-	cd /var/www/wordpress
+	# cd /var/www/wordpress
 	#wget http://wordpress.org/latest.tar.gz
 	#tar xfz latest.tar.gz
 	#mv wordpress/* .
@@ -20,18 +20,21 @@ else
 
 	#mv wp-config-sample.php wp-config.php
 
-	#wp --allow-root core download
-	#wp --allow-root config create --dbname="$WP_DB_NAME" --dbuser="$WP_DB_USR" --dbpass="$WP_DB_PWD" --dbhost="mariadb":"3306" --dbprefix='wp_'
-	#wp --allow-root core install --url="$DOMAIN_NAME" --title="$WP_TITLE" --admin_user="$WP_ADMIN_USR" --admin_password="$WP_ADMIN_PWD" --admin_email="$WP_ADMIN_EMAIL"
-	#wp --allow-root user create "$WP_USR" "$WP_EMAIL" --role='editor' --user_pass="$WP_PWD"
+	wp --allow-root core download
+	wp --allow-root config create --dbname=${SQL_DATABASE} --dbuser=${SQL_USER} --dbpass=${SQL_PASSWORD} --dbhost="mariadb":"3306" 
+	#--dbprefix='wp_'
+	wp --allow-root core install --url=${DOMAIN_NAME} --title=${WP_TITLE} --admin_user=${WP_ADMIN_USR} --admin_password=${WP_ADMIN_PWD} --admin_email=${WP_ADMIN_EMAIL}
+	wp --allow-root user create "$WP_USR" "$WP_EMAIL" --role='editor' --user_pass="$WP_PWD"
 
-	#Inport env variables in the config file
-	sed -i "s/username_here/$SQL_USER/g" wp-config-sample.php
-	sed -i "s/password_here/$SQL_PASSWORD/g" wp-config-sample.php
-	sed -i "s/localhost/$SQL_HOSTNAME/g" wp-config-sample.php
-	sed -i "s/database_name_here/$SQL_DATABASE/g" wp-config-sample.php
-	cp wp-config-sample.php wp-config.php
+	# #Inport env variables in the config file
+	# sed -i "s/username_here/$SQL_USER/g" wp-config-sample.php
+	# sed -i "s/password_here/$SQL_PASSWORD/g" wp-config-sample.php
+	# sed -i "s/localhost/$SQL_HOSTNAME/g" wp-config-sample.php
+	# sed -i "s/database_name_here/$SQL_DATABASE/g" wp-config-sample.php
+	# cp wp-config-sample.php wp-config.php
 fi
+
+/usr/sbin/php-fpm7.3 -F
 
 #if [1]
 #then
