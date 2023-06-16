@@ -23,8 +23,8 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/ngin
 RUN mkdir -p /var/run/nginx
 
 #copy du fichier de configuration dans notre conteneur
-#COPY /conf/nginx.conf /etc/nginx/nginx.conf
-COPY /conf/nginx.conf /etc/nginx/conf.d
+COPY /conf/nginx.conf /etc/nginx/nginx.conf
+#COPY /conf/nginx.conf /etc/nginx/conf.d
 #COPY /tools/index.html /var/www/html/index.html
 
 #donne droit (tous droits au proprietaire + lecture et acces aux autres)

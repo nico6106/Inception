@@ -3,17 +3,19 @@ COMPOSE			= sudo docker compose
 COMPOSE_FILE	=./srcs/docker-compose.yml
 
 all: volumes
+	sudo docker pull debian:buster
 	${COMPOSE} -f ${COMPOSE_FILE} -d up --pull never
 
 volumes:
-	sudo mkdir -p ${HOME}/data/db_volume
+	sudo mkdir -p ${HOME}/data/mariadb_volume
 	sudo mkdir -p ${HOME}/data/wordpress_volume
 
 build: volumes
 	${COMPOSE} -f ${COMPOSE_FILE} build
 
 log: volumes
-	${COMPOSE} -f ${COMPOSE_FILE} up --pull never
+	sudo docker pull debian:buster
+	${COMPOSE} -f ${COMPOSE_FILE} up --build --pull never
 
 ps:
 	${COMPOSE} -f ${COMPOSE_FILE} ps

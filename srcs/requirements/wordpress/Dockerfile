@@ -7,7 +7,7 @@ RUN apt-get update -y \
 
 RUN apt-get install mariadb-client -y 
 
-RUN mkdir -p /var/www/wordpress
+RUN mkdir -p /var/www/html
 #ici decommente
 # RUN wget https://fr.wordpress.org/wordpress-6.2.2-fr_FR.tar.gz -P /var/www
 # RUN cd /var/www && tar -xzf wordpress-6.2.2-fr_FR.tar.gz && rm wordpress-6.2.2-fr_FR.tar.gz
@@ -44,7 +44,11 @@ COPY /tools/config_wpcli.sh /tmp/config_wpcli.sh
 
 # RUN sh ./config_wpcli.sh
 
-WORKDIR /var/www/wordpress/
+RUN chmod 755 /var/www/html
+#modifie le proprietaire, option -R pour tous les sous s
+RUN chown -R www-data:www-data /var/www/html
+
+WORKDIR /var/www/html/
 
 #We expose the 9000 port
 EXPOSE 9000

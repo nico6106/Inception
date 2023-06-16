@@ -3,7 +3,7 @@
 sleep 8
 
 #dossier
-DATADIR='/var/www/wordpress/'
+DATADIR='/var/www/html/'
 
 
 
@@ -23,8 +23,8 @@ else
 	wp --allow-root core download
 	wp --allow-root config create --dbname=${SQL_DATABASE} --dbuser=${SQL_USER} --dbpass=${SQL_PASSWORD} --dbhost="mariadb":"3306" 
 	#--dbprefix='wp_'
-	wp --allow-root core install --url=${DOMAIN_NAME} --title=${WP_TITLE} --admin_user=${WP_ADMIN_USR} --admin_password=${WP_ADMIN_PWD} --admin_email=${WP_ADMIN_EMAIL}
-	wp --allow-root user create "$WP_USR" "$WP_EMAIL" --role='editor' --user_pass="$WP_PWD"
+	wp --allow-root core install --url=$DOMAIN_NAME --title=$WP_TITLE --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email=$WP_ADMIN_EMAIL
+	wp --allow-root user create ${WP_USR} ${WP_EMAIL} --role='editor' --user_pass=${WP_PWD}
 
 	# #Inport env variables in the config file
 	# sed -i "s/username_here/$SQL_USER/g" wp-config-sample.php
