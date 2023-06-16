@@ -6,15 +6,15 @@ sleep 8
 DATADIR='/var/www/html/'
 
 
-if [ -f ./wp-config.php ]
-then
-	echo "wordpress already downloaded, deleting it"
-	cd /var/www/
-	rm -rf *
-	ls -la
-	mkdir -p wordpress
-	cd /var/www/html
-fi
+# if [ -f ./wp-config.php ]
+# then
+	# echo "wordpress already downloaded, deleting it"
+	# cd /var/www/
+	# rm -rf *
+	# ls -la
+	# mkdir -p wordpress
+	# cd /var/www/html
+# fi
 
 if [ -f ./wp-config.php ]
 then
@@ -33,9 +33,9 @@ else
 	wp --allow-root config create --dbname=${SQL_DATABASE} --dbuser=${SQL_USER} --dbpass=${SQL_PASSWORD} --dbhost="mariadb":"3306" 
 	#--dbprefix='wp_'
 	echo "ok for config"
-	wp --allow-root core install --url=${DOMAIN_NAME} --title=${WP_TITLE} --admin_user=${WP_ADMIN_USR} --admin_password=${WP_ADMIN_PWD} --admin_email=${WP_ADMIN_EMAIL} --skip-email
+	wp --allow-root --skip-email core install --url=${DOMAIN_NAME} --title=${WP_TITLE} --admin_user=${WP_ADMIN_USR} --admin_password=${WP_ADMIN_PWD} --admin_email=${WP_ADMIN_EMAIL}
 	echo "ok for core install"
-	wp --allow-root user create ${WP_USR} ${WP_EMAIL} --role='editor' --user_pass=${WP_PWD} --skip-email
+	wp --allow-root user create $WP_USR $WP_EMAIL --role='editor' --user_pass=${WP_PWD}
 	echo "seems ok?"
 
 	# #Inport env variables in the config file
@@ -46,6 +46,13 @@ else
 	# cp wp-config-sample.php wp-config.php
 fi
 
+cd /var/www/html
+ls -la
+#chmod 777 *
+chown -R www-data:www-data /var/www/html
+
+
+#bash
 /usr/sbin/php-fpm7.3 -F
 
 #if [1]

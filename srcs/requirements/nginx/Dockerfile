@@ -41,4 +41,6 @@ RUN echo "nginx OK"
 
 EXPOSE	443
 
+#RUN nginx -t
+
 CMD [ "nginx", "-g", "daemon off;"]

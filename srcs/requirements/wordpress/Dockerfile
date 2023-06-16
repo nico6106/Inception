@@ -44,7 +44,12 @@ COPY /tools/config_wpcli.sh /tmp/config_wpcli.sh
 
 # RUN sh ./config_wpcli.sh
 
+#RUN cd /var/www/
 RUN chmod 755 /var/www/html
+#RUN cd /var/www/html/
+
+#RUN chmod 644 index.php
+
 #modifie le proprietaire, option -R pour tous les sous s
 RUN chown -R www-data:www-data /var/www/html
 
