@@ -11,7 +11,7 @@ RUN mkdir -p /var/www/html
 #ici decommente
 # RUN wget https://fr.wordpress.org/wordpress-6.2.2-fr_FR.tar.gz -P /var/www
 # RUN cd /var/www && tar -xzf wordpress-6.2.2-fr_FR.tar.gz && rm wordpress-6.2.2-fr_FR.tar.gz
-# RUN chown -R root:root /var/www/wordpress
+# RUN chown -R root:root /var/www/html
 
 #configurer php
 #COPY /conf/php.ini /etc/php/7.3/cli/php.ini
@@ -36,8 +36,8 @@ RUN mkdir /run/php
 
 #RUN wp core install --url=$DOMAIN_NAME/ --title=$WP_TITLE --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
 
-#COPY /tools/config_wpcli.sh /var/www/wordpress/config_wpcli.sh
-#ENTRYPOINT bash /var/www/wordpress/config_wpcli.sh
+#COPY /tools/config_wpcli.sh /var/www/html/config_wpcli.sh
+#ENTRYPOINT bash /var/www/html/config_wpcli.sh
 
 
 COPY /tools/config_wpcli.sh /tmp/config_wpcli.sh

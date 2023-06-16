@@ -6,12 +6,21 @@ sleep 8
 DATADIR='/var/www/html/'
 
 
+if [ -f ./wp-config.php ]
+then
+	echo "wordpress already downloaded, deleting it"
+	cd /var/www/
+	rm -rf *
+	ls -la
+	mkdir -p wordpress
+	cd /var/www/html
+fi
 
 if [ -f ./wp-config.php ]
 then
 	echo "wordpress already downloaded"
 else
-	# cd /var/www/wordpress
+	# cd /var/www/html
 	#wget http://wordpress.org/latest.tar.gz
 	#tar xfz latest.tar.gz
 	#mv wordpress/* .
@@ -23,8 +32,11 @@ else
 	wp --allow-root core download
 	wp --allow-root config create --dbname=${SQL_DATABASE} --dbuser=${SQL_USER} --dbpass=${SQL_PASSWORD} --dbhost="mariadb":"3306" 
 	#--dbprefix='wp_'
-	wp --allow-root core install --url=$DOMAIN_NAME --title=$WP_TITLE --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email=$WP_ADMIN_EMAIL
-	wp --allow-root user create ${WP_USR} ${WP_EMAIL} --role='editor' --user_pass=${WP_PWD}
+	echo "ok for config"
+	wp --allow-root core install --url=${DOMAIN_NAME} --title=${WP_TITLE} --admin_user=${WP_ADMIN_USR} --admin_password=${WP_ADMIN_PWD} --admin_email=${WP_ADMIN_EMAIL} --skip-email
+	echo "ok for core install"
+	wp --allow-root user create ${WP_USR} ${WP_EMAIL} --role='editor' --user_pass=${WP_PWD} --skip-email
+	echo "seems ok?"
 
 	# #Inport env variables in the config file
 	# sed -i "s/username_here/$SQL_USER/g" wp-config-sample.php
@@ -77,7 +89,7 @@ fi
 	##					--dbname=$SQL_DATABASE \
 	##					--dbuser=$SQL_USER \
 	##					--dbpass=$SQL_PASSWORD \
-	##					--dbhost=mariadb:3306 --path='/var/www/wordpress'
+	##					--dbhost=mariadb:3306 --path='/var/www/html'
 
 	##--url=$DOMAIN_NAME/
 
