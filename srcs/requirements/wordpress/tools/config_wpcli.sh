@@ -47,9 +47,10 @@ else
 fi
 
 cd /var/www/html
+chown -R www-data:www-data /var/www/html
+
 ls -la
 #chmod 777 *
-chown -R www-data:www-data /var/www/html
 
 
 #bash
