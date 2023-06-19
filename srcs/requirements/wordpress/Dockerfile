@@ -4,7 +4,8 @@ FROM debian:buster
 RUN apt-get update -y \
 && apt-get upgrade -y \
 && apt-get install php7.3 php-fpm php-mysql -y \
-&& apt-get install wget -y
+&& apt-get install wget -y \
+&& apt-get install redis php-redis -y 
 
 #installation mariadb client (pour acceder DB sur conteneur mariadb)
 RUN apt-get install mariadb-client -y 

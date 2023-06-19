@@ -19,6 +19,17 @@ else
 	wp theme install twentytwentyone --allow-root
 	wp theme activate twentytwentyone --allow-root
 
+	#### BONUS ####
+	#config redis: host et port
+	#WP_CACHE_KEY_SALT met une cle pour le cache, doit etre differente si on a plusieurs WP sur un seul serveur
+	wp config set WP_REDIS_HOST redis --allow-root 
+	wp config set WP_REDIS_PORT 6379 --allow-root 
+	wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root 
+	wp config set WP_REDIS_CLIENT phpredis --allow-root 
+	
+	wp plugin install redis-cache --activate --allow-root
+	wp plugin update --all --allow-root
+	wp redis enable --allow-root
 fi
 
 #modification des droits apres installation (pour etre sur...)

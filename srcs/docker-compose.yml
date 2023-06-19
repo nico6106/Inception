@@ -49,6 +49,24 @@ services:
       - wordpress_vol:/var/www/html
     tty: true
 
+#bonus
+  redis:
+    container_name: redis
+    build:
+      context: ./requirements/bonus/redis
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file: .env
+    depends_on:
+      - wordpress
+    networks:
+      - inception
+    expose: ["6379"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - wordpress_vol:/var/www/html
+
 volumes:
   wordpress_vol:
     driver: local
