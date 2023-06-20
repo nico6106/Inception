@@ -1,0 +1,7 @@
+
+baseURL = 'https://nlesage.42.fr/me'
+languageCode = 'en-us'
+title = 'My new site with Hugo'
+theme = 'ananke'
+[params]
+    AuthorName = 'Nicolas'
