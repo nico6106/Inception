@@ -4,7 +4,7 @@ COMPOSE_FILE	=./srcs/docker-compose.yml
 
 all: volumes
 	sudo docker pull debian:buster
-	${COMPOSE} -f ${COMPOSE_FILE} -d up --pull never
+	${COMPOSE} -f ${COMPOSE_FILE} up -d --pull never
 
 volumes:
 	sudo mkdir -p ${HOME}/data/mariadb_volume

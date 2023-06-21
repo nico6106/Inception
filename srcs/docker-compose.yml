@@ -46,7 +46,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - wordpress_vol:/var/www/html
+      - wordpress_vol:/var/www/html/
     tty: true
 
 #bonus
