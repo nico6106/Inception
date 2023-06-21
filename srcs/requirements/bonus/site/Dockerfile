@@ -6,6 +6,7 @@ RUN apt-get update -y \
 && mkdir -p /var/www/html
 
 COPY /conf/nico.html /var/www/html/nico.html
+COPY /conf/secret.html /var/www/html/secret.html
 COPY /conf/example.js /tmp/example.js
 
 EXPOSE 1111
